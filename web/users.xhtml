@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./layout.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+
+        <h:form prependId="false">
+
+            <ol class="dlist">
+
+                <ui:repeat value="#{users.iuserList}"  var="user" rendered="#{social.authenticated}">
+
+                    <li>
+                        <div style="float:left; margin-right: 10px">
+                            <img src="#{user.avatarUrl}" width="80" height="100"/>
+                        </div>
+                        <div id="container_div" style="float:left; margin-top: auto; height: 100px">
+                            <div id="name_div">#{user.fullName}</div>
+                            <div id="email_div">#{user.email}</div>
+                            <div style="margin-top: 10px">
+                                <f:ajax execute="@this" listener="#{users.details}">
+                                    <h:commandButton id="connectBtn_#{user.email}"  class="myButton" value="connect"/>
+                                    <h:commandButton id="detailsBtn_#{user.email}" class="myButton" value="details" type="button"/>
+                                </f:ajax>
+
+                            </div>
+                        </div>
+
+                        <div style="clear:both"/>
+                    </li>
+                </ui:repeat>
+
+            </ol>
+        </h:form> 
+        <p:dialog modal="true" showEffect="fade" hideEffect="fade">
+            Firstname 
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>

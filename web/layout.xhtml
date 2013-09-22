@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="css/theme1.css"></link>
+        <title>Facelets Template</title>
+    </h:head>
+
+   
+    <h:body>
+
+        <div id="top">
+            <h:form id="topForm">
+                <div id="topdiv" align="right">
+                    <p:commandButton id="chartBtn" rendered="#{!social.authenticated}" value="Sign in" type="button" />  
+                    <p:commandButton id="userBtn" rendered="#{social.authenticated}" value="#{social.user.userId}" type="button" />  
+                    <p:messages id="loginMsg" showDetail="true" showSummary="true"/>
+                    
+                    <p:overlayPanel id="chartPanel" for="chartBtn" hideEffect="fade">  
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="username"/>
+                            <p:inputText binding="#{social.userTxt}"/>
+                            <p:commandButton id="loginBtn" value="login" action="#{social.login}" ajax="false"/>
+                        </h:panelGrid> 
+                    </p:overlayPanel> 
+                </div>
+                <div id="actions">
+
+                    <p:menuButton value="Users">
+                        <p:menuitem value="New" onclick="dlg3.show()" icon="ui-icon-disk"/>  
+                        <p:menuitem value="View Users" url="faces/users.xhtml" icon="ui-icon-disk"/>  
+                    </p:menuButton>
+
+                </div>
+                </h:form>
+        </div>
+        
+        <div>
+            <div id="left">
+                <h:form>   
+
+                    <p:panelMenu>  
+                        <p:submenu label="Users">  
+                            <p:menuitem value="Create New" icon="ui-icon-disk" onclick="dlg3.show()"/>  
+                            <p:menuitem value="View" icon="ui-icon-arrowrefresh-1-w" url="http://www.primefaces.org"/>  
+                        </p:submenu>  
+                        <p:submenu label="Organizations">  
+                            <p:menuitem value="Create New" icon="ui-icon-close" url="http://www.primefaces.org"/>  
+                            <p:menuitem value="View" icon="ui-icon-close" url="http://www.primefaces.org"/>  
+                        </p:submenu>  
+                        <p:separator />  
+                        <p:submenu label="Groups" >  
+                            <p:submenu label="Links" icon="ui-icon-extlink">  
+                                <p:submenu label="PrimeFaces" icon="ui-icon-heart">  
+                                    <p:menuitem value="Home" url="http://www.primefaces.org" icon="ui-icon-home" />  
+                                    <p:menuitem value="Docs" url="http://www.primefaces.org/documentation.html" icon="ui-icon-document" />  
+                                    <p:menuitem value="Download" url="http://www.primefaces.org/downloads.html" icon="ui-icon-arrowthick-1-s" />  
+                                    <p:menuitem value="Support" url="http://www.primefaces.org/support.html" icon="ui-icon-wrench" />  
+                                </p:submenu>  
+                            </p:submenu>  
+
+                        </p:submenu>  
+                    </p:panelMenu>  
+
+                </h:form> 
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+        <!--        <div id="bottom">
+                    <ui:insert name="bottom">Bottom</ui:insert>
+                </div>-->
+        <p:dialog header="Create New User" widgetVar="dlg3" showEffect="slide" hideEffect="slide" modal="true">  
+            <h:form>
+                <h:panelGrid style="padding: 10px" columns="2">
+                    <h:outputLabel value="User ID : "/>
+                    <h:inputText value="#{users.user.userId}" styleClass="form-element-width" required="true"/>
+                    <h:outputLabel value="First Name : "/>
+                    <h:inputText value="#{users.user.firstname}" styleClass="form-element-width"/>
+                    <h:outputLabel value="Last Name : "/>
+                    <h:inputText value="#{users.user.lastname}" styleClass="form-element-width"/>
+                    <h:outputLabel value="Gender : "/>
+                    <p:selectOneMenu value="#{users.user.gender}" styleClass="form-element-width">
+                        <f:selectItem itemLabel="Male" itemValue="MALE"/>
+                        <f:selectItem itemLabel="Female" itemValue="FEMALE"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Email : "/>
+                    <h:inputText value="#{users.user.email}" style="width: 200px"/>
+                    <!--<h:outputLabel value="Password : "/>-->
+<!--                    <p:password feedback="true" required="true"/>-->
+<p:commandButton action="#{users.createUser}" update="userCreateMsg" value="save" styleClass="form-element-width"/>
+                </h:panelGrid>
+                <p:messages id="userCreateMsg"/>
+            </h:form> 
+        </p:dialog>  
+    </h:body>
+
+</html>
