@@ -16,15 +16,16 @@ import org.primefaces.model.StreamedContent;
  * @author dubic
  */
 public class IUser {
+    private String userId;
     private String uniqueName;
     private String fullName;
     private String firstName;
     private String lastName;
     private String avatarUrl;
     private String email;
-    private List<IUser> friends = new ArrayList<IUser>();
-    private List<ITia> connectedTIAs = new ArrayList<ITia>();
-    private StreamedContent image;
+//    private List<IUser> friends = new ArrayList<IUser>();
+//    private List<ITia> connectedTIAs = new ArrayList<ITia>();
+//    private StreamedContent image;
     
     private boolean online = false;
     
@@ -38,12 +39,21 @@ public class IUser {
     }
 
     public IUser(User dbUser,String av) {
+        this.userId = dbUser.getUserId();
         this.firstName = dbUser.getFirstname();
         this.lastName = dbUser.getLastname();
         this.fullName = dbUser.getFullName();
         this.uniqueName = dbUser.getUserId();
         this.email = dbUser.getEmail();
         this.avatarUrl = av;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
     
@@ -80,21 +90,7 @@ public class IUser {
         this.email = email;
     }
 
-    public List<IUser> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<IUser> friends) {
-        this.friends = friends;
-    }
-
-    public List<ITia> getConnectedTIAs() {
-        return connectedTIAs;
-    }
-
-    public void setConnectedTIAs(List<ITia> connectedTIAs) {
-        this.connectedTIAs = connectedTIAs;
-    }
+ 
 
     public boolean isOnline() {
         return online;
@@ -120,13 +116,11 @@ public class IUser {
         this.lastName = lastName;
     }
 
-    public StreamedContent getImage() {
-        return image;
+    @Override
+    public String toString() {
+        return "IUser{" + "uniqueName=" + uniqueName + ", fullName=" + fullName + ", firstName=" + firstName + ", lastName=" + lastName + ", avatarUrl=" + avatarUrl + ", email=" + email + ", online=" + online + '}';
     }
 
-    public void setImage(StreamedContent image) {
-        this.image = image;
-    }
     
     
     

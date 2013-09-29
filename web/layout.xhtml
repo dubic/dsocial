@@ -8,9 +8,9 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/theme1.css"></link>
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="css/theme1.css"></link>
         <title>Facelets Template</title>
     </h:head>
 
@@ -20,16 +20,23 @@
         <div id="top">
             <h:form id="topForm">
                 <div id="topdiv" align="right">
-                    <p:commandButton id="chartBtn" rendered="#{!social.authenticated}" value="Sign in" type="button" />  
+                    <p:commandButton id="signinBtn" rendered="#{!social.authenticated}" value="Sign in" type="button" />  
                     <p:commandButton id="userBtn" rendered="#{social.authenticated}" value="#{social.user.userId}" type="button" />  
                     <p:messages id="loginMsg" showDetail="true" showSummary="true"/>
                     
-                    <p:overlayPanel id="chartPanel" for="chartBtn" hideEffect="fade">  
+                    <p:overlayPanel id="signinPanel" for="signinBtn" hideEffect="slide" styleClass="menu_panel">  
                         <h:panelGrid columns="2">
                             <h:outputLabel value="username"/>
                             <p:inputText binding="#{social.userTxt}"/>
                             <p:commandButton id="loginBtn" value="login" action="#{social.login}" ajax="false"/>
                         </h:panelGrid> 
+                    </p:overlayPanel> 
+                    <p:overlayPanel id="userOptsPanel" for="userBtn" hideEffect="slide" >  
+                        <div class="menu_panel">
+                            <a href="my-details.xhtml">My Account</a> 
+                            <a href="faces/my-details.xhtml">Log out</a> 
+                        </div>
+                        
                     </p:overlayPanel> 
                 </div>
                 <div id="actions">

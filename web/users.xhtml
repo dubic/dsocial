@@ -8,7 +8,7 @@
 
     <ui:define name="content">
 
-        <h:form prependId="false">
+        <h:form >
 
             <ol class="dlist">
 
@@ -22,10 +22,15 @@
                             <div id="name_div">#{user.fullName}</div>
                             <div id="email_div">#{user.email}</div>
                             <div style="margin-top: 10px">
-                                <f:ajax execute="@this" listener="#{users.details}">
-                                    <h:commandButton id="connectBtn_#{user.email}"  class="myButton" value="connect"/>
-                                    <h:commandButton id="detailsBtn_#{user.email}" class="myButton" value="details" type="button"/>
-                                </f:ajax>
+
+                                <h:commandButton id="connectBtn"  class="myButton" value="connect"/>
+                                <!--<f:ajax execute="@this" render="@form" onevent="dlg.show()">-->
+                                <!--<h:commandButton id="detailsBtn"  class="myButton" value="details" >-->
+                                <p:commandButton styleClass="myButton" update="@form" oncomplete="dlg.show()" value="details">
+
+                                    <f:setPropertyActionListener value="#{user}" target="#{users.selectedUser}" />
+                                </p:commandButton>
+                                <!--</f:ajax>-->
 
                             </div>
                         </div>
@@ -35,10 +40,23 @@
                 </ui:repeat>
 
             </ol>
+
+            <p:dialog  header="#{users.selectedUser.firstName}" style="height: auto;" widgetVar="dlg" modal="true" showEffect="fade" hideEffect="fade">
+                <h:panelGroup id="detpanel" styleClass="details_div">
+                    <div id="piciv">
+                        <img src="#{users.selectedUser.avatarUrl}" width="80" height="100"/>
+                    </div>
+                    <div>
+                        <div>First Name : #{users.selectedUser.firstName}</div>
+                        <div>Last Name : #{users.selectedUser.lastName}</div>
+                        <div>Email : #{users.selectedUser.email}</div>
+                    </div>
+                    
+                </h:panelGroup>
+
+            </p:dialog>
         </h:form> 
-        <p:dialog modal="true" showEffect="fade" hideEffect="fade">
-            Firstname 
-        </p:dialog>
+
     </ui:define>
 
 </ui:composition>

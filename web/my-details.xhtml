@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./layout.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="content">
+        <p:dialog widgetVar="updlg" header="change profile picture" modal="true">
+            <h:form id="fileform" enctype="multipart/form-data">  
+                <p:fileUpload fileUploadListener="#{social.changePic}" update=":detailsForm:profilePic" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"/> 
+                <p:growl id="uploadout" showDetail="true"/> 
+            </h:form>  
+        </p:dialog>
+        <h:form id="detailsForm">
+            <h:panelGroup id="detailsPanel">
+                <div style=""><h:graphicImage id="profilePic" url="#{social.user.avatarUrl}"/>
+                    <br/><h:commandButton id="changeBtn"  class="myButton" value="change" type="button" onclick="updlg.show()"/>
+                </div>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

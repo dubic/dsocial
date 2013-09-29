@@ -29,7 +29,7 @@ public class Users {
     private Logger log = Logger.getLogger(getClass());
     private IUser iuser = new IUser();
     private User user = new User();
-    private User selectedUser;
+    private IUser selectedUser;
     private List<IUser> iuserList = new ArrayList<IUser>();
     @Inject
     private UserHandler uh;
@@ -97,12 +97,20 @@ public class Users {
         }
     }
 
-    public void setSelectedUser(User selectedUser) {
-        this.selectedUser = selectedUser;
+    public IUser getSelectedUser() {
+        return selectedUser;
     }
+
+    public void setSelectedUser(IUser selectedUser) {
+        System.out.println("SELECTEC USER CALLED");
+        this.selectedUser = selectedUser;
+        System.out.println("user - "+selectedUser);
+    }
+    
 
 public void details(AjaxBehaviorEvent evt){
     System.out.println("event - "+evt.getComponent().getId());
+    System.out.println("user - "+selectedUser);
 }    
     
 }
