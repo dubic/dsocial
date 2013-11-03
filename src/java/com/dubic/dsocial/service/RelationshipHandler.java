@@ -32,6 +32,7 @@ public class RelationshipHandler {
     private EntityManager em;
     @Inject UserHandler uh;
     @Inject ActivityHandler ah;
+    @Inject private Database db;
     private Logger log = Logger.getLogger(getClass());
 
     /**
@@ -122,7 +123,8 @@ public class RelationshipHandler {
      * @param relationship
      * @return the updated relationship
      */
-    public Relationship acceptRelationship(Relationship relationship, boolean broadcast) {
+    public Relationship acceptRelationship(Long id, boolean broadcast) throws NonexistentEntityException {
+        Relationship relationship = db.find(Relationship.class, id);
         relationship.setLevel(Relationship.LEVEL.ACCEPTED);
         relationship.setUpdated(new Date());
         Relationship updatedRelationship = updateRelationship(relationship);
@@ -151,10 +153,18 @@ public class RelationshipHandler {
      * @param user the user
      * @return list of <tt>User</tt> pending user connections awaiting confirmation
      */
-    public List<User> getRelationshipLevel(User user,Relationship.LEVEL level) {
+    public List<User> getRelationshipLevel(String userId,Relationship.LEVEL level) throws NonexistentEntityException {
+        User user = db.find(User.class, userId);
         List<Relationship> resultList = em.createNamedQuery("Relationship.find.level.to", Relationship.class).setParameter("level", level).setParameter("user", user)
                 .getResultList();
         return getUsersInRelationships(resultList, user);
+    }
+    
+    public List<Relationship> getPendingRequestsl(String userId)  {
+//        User user = db.find(User.class, userId);
+        return em.createQuery("SELECT r FROM Relationship r WHERE r.to.userId = :uid and r.level = :level", Relationship.class)
+                .setParameter("level", Relationship.LEVEL.PENDING).setParameter("uid", userId).getResultList();
+         
     }
     /**
      * @param user the user

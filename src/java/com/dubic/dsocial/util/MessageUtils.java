@@ -2,22 +2,23 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.dubic.dsocial.util;
 
 import com.dubic.dsocial.models.IMessage;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.apache.shindig.social.opensocial.model.Message;
 
 /**
  *
  * @author dubic
  */
-
 public class MessageUtils {
+
     public static final String SENDER_JCREST = "JCrest";
-    
+
 //   @RemoteMethod
-    public static IMessage createSimpleMessage(String sender,String recipient,String body){
+    public static IMessage createSimpleMessage(String sender, String recipient, String body) {
         IMessage m = new IMessage();
         m.setType(Message.Type.NOTIFICATION);
         m.setStatus(Message.Status.NEW);
@@ -26,8 +27,8 @@ public class MessageUtils {
         m.setBody(body);
         return m;
     }
-    
-    public static IMessage createWelcomeMessage(String recipient,String body){
+
+    public static IMessage createWelcomeMessage(String recipient, String body) {
         IMessage m = new IMessage();
         m.setType(Message.Type.PRIVATE_MESSAGE);
         m.setStatus(Message.Status.NEW);
@@ -35,5 +36,10 @@ public class MessageUtils {
         m.getRecipients().add(recipient);
         m.setBody(body);
         return m;
+    }
+
+    public static void addMessage(String id, FacesMessage.Severity severity, String msg) {
+        FacesMessage fmsg = new FacesMessage(severity, msg, null);
+        FacesContext.getCurrentInstance().addMessage(id, fmsg);
     }
 }

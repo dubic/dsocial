@@ -6,13 +6,17 @@ package com.dubic.dsocial.service;
 
 
 import com.dubic.dsocial.dao.exceptions.NonexistentEntityException;
+import com.dubic.dsocial.dto.IUser;
+import com.dubic.dsocial.models.Avatar;
 import com.dubic.dsocial.models.User;
 import com.dubic.dsocial.models.User.Gender;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
+import org.primefaces.model.UploadedFile;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -91,6 +95,23 @@ public class UserHandler {
     public User createUser(User user)throws Exception{
         User savedUser = saveUser(user);
         return user;
+    }
+
+    public User changeProfilePic(UploadedFile file, IUser iuser) throws NonexistentEntityException {
+        log.debug("changeProfilePic{} - filename = "+file.getFileName());
+        User user = findUser(iuser.getUserId());
+        Avatar avatar = user.getAvatar();
+        if(avatar == null){
+            avatar = new Avatar();
+        }
+        avatar.setDescription("User Profile picture");
+        avatar.setImage(file.getContents());
+        avatar.setName(file.getFileName());
+        avatar.setUpdated(new Date());
+        avatar.setUser(user);
+        user.setAvatar(avatar);
+        User updateUser = updateUser(user);
+        return updateUser;
     }
     
 }

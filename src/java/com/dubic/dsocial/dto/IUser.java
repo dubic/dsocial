@@ -23,6 +23,10 @@ public class IUser {
     private String lastName;
     private String avatarUrl;
     private String email;
+    private int friends;
+    private int groups;
+    private int requests;
+    
 //    private List<IUser> friends = new ArrayList<IUser>();
 //    private List<ITia> connectedTIAs = new ArrayList<ITia>();
 //    private StreamedContent image;
@@ -55,8 +59,30 @@ public class IUser {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    
-    
+
+    public int getFriends() {
+        return friends;
+    }
+
+    public void setFriends(int friends) {
+        this.friends = friends;
+    }
+
+    public int getGroups() {
+        return groups;
+    }
+
+    public void setGroups(int groups) {
+        this.groups = groups;
+    }
+
+    public int getRequests() {
+        return requests;
+    }
+
+    public void setRequests(int requests) {
+        this.requests = requests;
+    }
 
     public String getUniqueName() {
         return uniqueName;

@@ -8,7 +8,7 @@
 
     <ui:define name="content">
 
-        <h:form >
+        <h:form id="usersForm">
 
             <ol class="dlist">
 
@@ -19,16 +19,15 @@
                             <img src="#{user.avatarUrl}" width="80" height="100"/>
                         </div>
                         <div id="container_div" style="float:left; margin-top: auto; height: 100px">
+                            <div id="uid_div">#{user.userId}</div>
                             <div id="name_div">#{user.fullName}</div>
                             <div id="email_div">#{user.email}</div>
                             <div style="margin-top: 10px">
-
-                                <h:commandButton id="connectBtn"  class="myButton" value="connect"/>
-                                <!--<f:ajax execute="@this" render="@form" onevent="dlg.show()">-->
-                                <!--<h:commandButton id="detailsBtn"  class="myButton" value="details" >-->
-                                <p:commandButton styleClass="myButton" update="@form" oncomplete="dlg.show()" value="details">
-
-                                    <f:setPropertyActionListener value="#{user}" target="#{users.selectedUser}" />
+                                <p:commandButton styleClass="myButton" update=":usersForm:connPanel" oncomplete="conndlg.show()" value="connect">
+                                    <f:setPropertyActionListener value="#{user}" target="#{social.selectedUser}" />
+                                </p:commandButton>
+                                <p:commandButton styleClass="myButton" update=":usersForm:detpanel" oncomplete="dlg.show()" value="details">
+                                    <f:setPropertyActionListener value="#{user}" target="#{social.selectedUser}" />
                                 </p:commandButton>
                                 <!--</f:ajax>-->
 
@@ -41,22 +40,33 @@
 
             </ol>
 
-            <p:dialog  header="#{users.selectedUser.firstName}" style="height: auto;" widgetVar="dlg" modal="true" showEffect="fade" hideEffect="fade">
+            <p:dialog  header="#{social.selectedUser.firstName}" style="height: auto;" widgetVar="dlg" modal="true" showEffect="fade" hideEffect="fade">
                 <h:panelGroup id="detpanel" styleClass="details_div">
                     <div id="piciv">
-                        <img src="#{users.selectedUser.avatarUrl}" width="80" height="100"/>
+                        <img src="#{social.selectedUser.avatarUrl}" width="80" height="100"/>
                     </div>
                     <div>
-                        <div>First Name : #{users.selectedUser.firstName}</div>
-                        <div>Last Name : #{users.selectedUser.lastName}</div>
-                        <div>Email : #{users.selectedUser.email}</div>
+                        <div>First Name : #{social.selectedUser.firstName}</div>
+                        <div>Last Name : #{social.selectedUser.lastName}</div>
+                        <div>Email : #{social.selectedUser.email}</div>
                     </div>
+                </h:panelGroup>
+            </p:dialog>
+            
+            <p:dialog  header="request connection" style="height: auto;" widgetVar="conndlg" modal="true" showEffect="slide" hideEffect="fade">
+                <h:panelGroup id="connPanel">
+                    <p>Send a connection Request to <strong>#{social.selectedUser.fullName}</strong></p>
+                     <p:messages id="connmsgs"  autoUpdate="true" closable="true" />
+                    <h:commandButton styleClass="myButton" value="send">
+                        <f:ajax execute="@this" listener="#{users.requestConnection}" render="connmsgs"/>
+                    </h:commandButton>
+                    <h:commandButton styleClass="myButton" onclick="conndlg.hide()" value="cancel"/>
                     
                 </h:panelGroup>
-
             </p:dialog>
         </h:form> 
 
+        
     </ui:define>
 
 </ui:composition>

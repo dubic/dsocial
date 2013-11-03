@@ -3,22 +3,88 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./layout.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://java.sun.com/jsf/html">
-
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://java.sun.com/jsf/core">
+    
     <ui:define name="content">
         <p:dialog widgetVar="updlg" header="change profile picture" modal="true">
             <h:form id="fileform" enctype="multipart/form-data">  
-                <p:fileUpload fileUploadListener="#{social.changePic}" update=":detailsForm:profilePic" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"/> 
-                <p:growl id="uploadout" showDetail="true"/> 
+                <p:fileUpload fileUploadListener="#{social.changePic}" 
+                              update=":detailsForm:profilePic,:fileform:uploadout"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced" oncomplete="updlg.hide()"/> 
+                <p:growl id="uploadout"/> 
             </h:form>  
         </p:dialog>
-        <h:form id="detailsForm">
-            <h:panelGroup id="detailsPanel">
-                <div style=""><h:graphicImage id="profilePic" url="#{social.user.avatarUrl}"/>
-                    <br/><h:commandButton id="changeBtn"  class="myButton" value="change" type="button" onclick="updlg.show()"/>
-                </div>
-            </h:panelGroup>
-        </h:form>
+        <script>
+        $(document).ready(function(){
+           
+            $("#detailsEditForm").hide();
+            //editBtn action
+            $("#editBtn").click(function(){
+                $("#detailsForm").hide("slide");
+                $("#detailsEditForm").show("slide");
+            });
+            //backBtn action
+            $("#backBtn").click(function(){
+                $("#detailsEditForm").hide("slide");
+                $("#detailsForm").show("slide");
+            });
+            
+        });
+    </script>
+        
+        <h:panelGroup id="editContainer" rendered="#{social.authenticated}">
+            
+            <h:form id="detailsForm" prependId="false">
+                <h:panelGroup id="detailsPanel">
+                    <div class="actionPane">
+                        <h:commandButton id="editBtn" onclick="" class="myButton" value="edit" type="button"/>
+                    </div>
+                    <div style="float: left; width: 20%;border-bottom: #36808e 1px"><h:graphicImage id="profilePic" url="#{social.user.avatarUrl}" width="120" height="150"/>
+                        <br/><h:commandButton id="changeBtn"  class="myButton" value="change" type="button" onclick="updlg.show()"/>
+                    </div>
+                    <div style="float: left; width: 70%" class="personal_div" align="left">
+                        <span style="display:block; padding :5px;background: darkgray;">Personal details</span>
+                        <label>User ID</label>
+                        <h:outputText value="#{social.user.userId}"/>
+                        <label>First Name</label>
+                        <h:outputText value="#{social.user.firstName}"/>
+                        <label>Last Name</label>
+                        <h:outputText value="#{social.user.lastName}"/>
+                        <label>Email</label>
+                        <h:outputText value="#{social.user.email}"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <h:form id="detailsEditForm"  prependId="false">
+                <p:growl id="editout"/> 
+                <h:panelGroup id="detailsEditPanel">
+                    <div class="actionPane">
+                        <h:commandButton id="saveBtn"  class="myButton" value="save" type="button">
+                            <f:ajax listener="#{social.editUserdetails}" execute="detailsEditForm" render="editout"/>
+                        </h:commandButton>
+                        <h:commandButton id="backBtn"  class="myButton" value="back" type="button"/>
+                    </div>
+                    <div style="float: left; width: 20%;border-bottom: #36808e 1px"><h:graphicImage id="profileEditPic" url="#{social.user.avatarUrl}" width="120" height="150"/>
+                        <br/><h:commandButton id="changeEditBtn"  class="myButton" value="change" type="button" onclick="updlg.show()"/>
+                    </div>
+                    
+                    <div style="float: left; width: 70%" class="personal_div" align="left">
+                        <span class="header-span">Personal details</span>
+                        <label>User ID</label>
+                         <h:outputText value="#{social.user.userId}"/>
+                        <label>First Name</label>
+                        <h:inputText value="#{social.user.firstName}"/>
+                        <label>Last Name</label>
+                        <h:inputText value="#{social.user.lastName}"/>
+                        <label>Email</label>
+                        <h:inputText value="#{social.user.email}"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </h:panelGroup>
+
     </ui:define>
 
 </ui:composition>

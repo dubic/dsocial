@@ -20,7 +20,12 @@ body{
     line-height: 20px;
 }
 #header  { padding: 30px 00px 20px 00px;}
-#content { padding: 30px 00px 30px 00px; }
+#content { padding: 10px 00px 30px 00px; }
+
+.actionPane{
+    background: darkgray;
+    margin-bottom: 10px;
+}
 
 #container {
     width: 460px; 
@@ -195,4 +200,51 @@ input.public-button {
 .menu_panel a:hover{
     background: #e3e1ce;
     text-decoration: none;
+}
+
+.personal_div{
+    border: #014464;
+    padding: 0px 0px 10px 20px;
+}
+/*.personal_div input{
+    border: none;
+background: darkgray;
+}*/
+.personal_div label{
+    font-weight: bolder;
+    display: block;
+}
+
+.header-span{
+    display: block;
+    background: #dddddd;
+    text-align: center;
+    border : solid 1px #7d7d7d;
+  
+    border-radius: 0px 0px 100px 100px;
+    margin-bottom: 5px;
+    padding: 5px 0px 5px 0px;
+    font-weight: bold;
+    color: #045491;
+}
+.container_list{
+    list-style: none;
+    padding: 0px;
+}
+.container_list li{
+    display: block;
+    background: #C8CECD;
+    border-radius: 4px;
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 3px;
+    text-align: left;
+    color: darkgreen;
+}
+.container_list li:hover{
+    font-weight: bold;
+    background: #EEEEEE;
+   cursor: pointer;
+}
+.icon-image{
+    margin-right: 10px;
 }

@@ -1,5 +1,6 @@
 package com.dubic.dsocial.models;
 
+import com.dubic.dsocial.dto.IUser;
 import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class User implements Serializable {
     @Column(nullable=false)
     private Gender gender;
     private String Url;
-    @OneToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch= FetchType.LAZY,cascade={CascadeType.ALL})
     private Avatar avatar;
     private String firstname;
     private String lastname;
@@ -82,7 +83,11 @@ public class User implements Serializable {
         this.email = email;
     }
     
-
+public User(IUser iuser){
+    this.userId = iuser.getUserId();
+    this.lastname = iuser.getLastName();
+    
+}
     public String getFullName() {
         if (this.firstname != null) {
             if(this.lastname != null){

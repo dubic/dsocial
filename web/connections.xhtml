@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGroup style="display: block" styleClass="left" rendered="#{social.authenticated}">
+        <span class="header-span">Connections</span>
+        <ul class="container_list">
+            <li><img src="avatars/people.png" class="icon-image"/>Friends (#{social.user.friends})</li>
+            <li>Groups (0)</li>
+        </ul>
+        <span class="header-span">Requests</span>
+        <ul class="container_list">
+            <li><p:commandLink value="Friend Requests (#{social.user.requests})" ajax="true" actionListener="#{dashboard.getFriendList}" update="testpanel" oncomplete="fcdlg.show()"/></li>
+            <li>Groups Requests (0)</li>
+        </ul>
+
+        <h:panelGroup id="testpanel">
+            <h:commandButton id="testBtn"  class="myButton" value="test" type="button">
+                <f:attribute name="name attr" value="dubic"/>
+                <f:attribute name="relationshipId" value="#{dashboard.relationshipId}"/>
+                <f:ajax listener="#{dashboard.acceptFriendRequest}"/>
+            </h:commandButton>
+            
+            <ui:repeat value="#{dashboard.friendRequests}" var="rel">
+                        <li><img src="#{rel.fromImgUrl}" width="50" height="70"/><span>#{rel.fromFullName}</span>
+                            <h:commandButton id="acceptBtn" class="myButton" value="accept" type="button">
+                                <f:attribute name="relationshipId" value="#{rel.relationshipId}"/>
+                                <f:ajax listener="#{dashboard.acceptFriendRequest}" execute="@this"/>
+                            </h:commandButton>
+                        </li>
+                    </ui:repeat>
+        </h:panelGroup>
+    </h:panelGroup>
+
+    
+     
+
+    <p:dialog widgetVar="fcdlg" header="Friend Requests" modal="true">
+        <!--<h:panelGroup id="freqList">-->
+            <ul>
+                    <ui:repeat value="#{dashboard.friendRequests}" var="rela">
+                        <li><img src="#{rela.fromImgUrl}" width="50" height="70"/><span>#{rela.fromFullName}</span>
+                            <h:commandButton id="acceptBtn" class="myButton" value="accept" type="button">
+                                <f:attribute name="relationshipId" value="#{rela.relationshipId}"/>
+                                <f:ajax listener="#{dashboard.acceptFriendRequest}"/>
+                            </h:commandButton>
+                        </li>
+                    </ui:repeat>
+            </ul>
+        <!--</h:panelGroup>-->
+    </p:dialog>
+</html>
+
